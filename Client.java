@@ -75,9 +75,9 @@ public class Client {
             Socket socket = new Socket(localhost, port);
 
             // Multiple requests
-            query(socket, "hello1");
-            query(socket, "hello2");
-            query(socket, "hello3");
+            query(socket, "                %@$%          set $#key 6");
+            query(socket, "del key                  " );
+            query(socket, "get key");
 
             socket.close();
         } catch (IOException e) {

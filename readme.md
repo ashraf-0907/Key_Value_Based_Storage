@@ -91,3 +91,24 @@ String clientMessage = new String(byteArray);
 ```
 
 
+### ByteBuffer Class
+
+1) The ByteBuffer class in Java is part of the java.nio package and is used to manage a buffer of bytes.
+2) It provides a way to manipulate sequences of bytes in a structured manner.
+
+```java
+// Allocating byteBuffer 
+import java.nio.ByteBuffer;
+class demo{
+    ByteBuffer buffer1 = ByteBuffer.allocate(capacity); // this will allocate the byte buffer at pos. 0 of size capacity...
+
+   // OR wrapping the existing byte array to ByteBuffer
+
+    ByteBuffer buffer2 = ByteBuffer.wrap(array_of_byte);
+    
+    buffer1.putInt(123) ;// this will put the integer value in the buffer 
+    buffer1.put(byte_array) ; // this will put byte_array to the buffer 
+}
+```
+
+
