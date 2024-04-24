@@ -1,7 +1,6 @@
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.IOException;
-import java.io.EOFException;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -22,7 +21,7 @@ public class Client {
         while (bytesRead < len) {
             int result = is.read(buffer, bytesRead, len - bytesRead);
             if (result == -1) {
-                throw new EOFException("Unexpected end of stream");
+                throw new IOException("Unexpected end of stream");
             }
             bytesRead += result;
         }
@@ -71,23 +70,17 @@ public class Client {
         Properties prop = utils.Property.loadProperties("config.properties");
         String localhost = prop.getProperty("localHost", "127.0.0.1");
         int port = Integer.parseInt(prop.getProperty("port", "8080"));
-        Scanner sc = new Scanner(System.in);
-        try {
-            Socket socket = new Socket(localhost, port);
-            while(true)
-            {
-                String toBeSent;
-                toBeSent = sc.nextLine();
-                if(toBeSent=="-1")break;
+
+        try (Socket socket = new Socket(localhost, port);
+             Scanner sc = new Scanner(System.in)) {
+
+            while (true) {
+                String toBeSent = sc.nextLine();
+                if (toBeSent.equals("-1")) {
+                    break;
+                }
                 query(socket, toBeSent);
             }
-            // Multiple requests
-            // query(socket, "hello1");
-            // query(socket, "hello2");
-            // query(socket, "hello3");
-
-            socket.close();
-            sc.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
