@@ -208,6 +208,7 @@ public class Client {
                 if (toBeSent.equals("-1")) {
                     break;
                 }
+                System.out.println("tobesentfromclient"+toBeSent);
                 sendRequest(socket, toBeSent);
             }
         } catch (IOException e) {
@@ -226,12 +227,12 @@ public class Client {
             InputStream is = socket.getInputStream();
 
             // Sending the length of the message
-            ByteBuffer lenBuffer = ByteBuffer.allocate(4);
-            lenBuffer.putInt(len);
-            os.write(lenBuffer.array());
+            byte[] lenBytes = ByteBuffer.allocate(4).putInt(len).array();
+            os.write(lenBytes);
 
             // Sending the message
             os.write(text.getBytes(StandardCharsets.UTF_8));
+            System.out.println(text.getBytes(StandardCharsets.UTF_8));
             os.flush();
 
             // Read 4 bytes header

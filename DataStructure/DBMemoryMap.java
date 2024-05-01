@@ -3,9 +3,12 @@ package DataStructure;
 import java.util.HashMap;
 
 public class DBMemoryMap {
-    private static HashMap<String, String> hMap = new HashMap<>();
-
-    public static String getValue(String key) {
+    private static HashMap<String, String> hMap;
+    public DBMemoryMap()
+    {
+        hMap = new HashMap<>();
+    }
+    public String getValue(String key) {
         String value = hMap.get(key);
         if (value == null)
             return "Key not present, cannot get";
@@ -13,7 +16,7 @@ public class DBMemoryMap {
             return value;
     }
 
-    public static String setValue(String key, String value) {
+    public String setValue(String key, String value) {
         if (hMap.containsKey(key))
             return "Key already present, cannot set value!!";
         else {
@@ -22,7 +25,7 @@ public class DBMemoryMap {
         }
     }
 
-    public static String delValue(String key) {
+    public String delValue(String key) {
         if (!hMap.containsKey(key))
             return "Key not present, cannot delete the value!!";
         else {

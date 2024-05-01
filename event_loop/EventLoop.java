@@ -316,15 +316,19 @@ import java.util.Deque;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import DataStructure.DBMemoryMap;
+
 public class EventLoop {
     private final ExecutorService threadPool;
     private final Deque<Event> pendingEvents;
     private final Deque<Event> processedEvents;
+    private DBMemoryMap myDB;
 
     public EventLoop() {
         threadPool = Executors.newCachedThreadPool();
         pendingEvents = new ArrayDeque<>();
         processedEvents = new ArrayDeque<>();
+        myDB = new DBMemoryMap();
     }
 
     public void start() {
@@ -354,11 +358,12 @@ public class EventLoop {
                 // Read data from clientSocket
                 byte[] requestBytes = new byte[maxSize];
                 int bytesRead = clientSocket.getInputStream().read(requestBytes);
-
+                System.out.println("requestbytes"+requestBytes);
                 if (bytesRead > 0) {
                     // Process the event
                     String clientMessage = new String(requestBytes, 0, bytesRead);
                     String[] parsedRequest = clientMessage.split(" "); // use parsedString present at utlis
+                    System.out.println("parsed r sent to event"+parsedRequest);
                     Event event = new Event(clientSocket.getInetAddress(), clientSocket.getPort(), parsedRequest, clientSocket, priority);
                     addEvent(event);
                 }
@@ -393,11 +398,13 @@ public class EventLoop {
     }
 
     private ResponseStructure processAsynchronously(String[] parsedString) {
-        return RequestHandlers.requestHandlerFunction(parsedString);
+        System.out.println("S"+parsedString);
+        return RequestHandlers.requestHandlerFunction(parsedString,myDB);
     }
 
     private ResponseStructure processSynchronously(String[] parsedString) {
-        return RequestHandlers.requestHandlerFunction(parsedString);
+        System.out.println("AS"+parsedString);
+        return RequestHandlers.requestHandlerFunction(parsedString,myDB);
     }
 
     private ByteBuffer createResponseBuffer(ResponseStructure response) {

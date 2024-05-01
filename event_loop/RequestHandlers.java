@@ -96,12 +96,12 @@ import DataStructure.DBMemoryMap;
 
 public class RequestHandlers {
 
-    public static ResponseStructure requestHandlerFunction(String[] stringParts) {
+    public static ResponseStructure requestHandlerFunction(String[] stringParts,DBMemoryMap myDB) {
         ResponseStructure res = new ResponseStructure(); // Create a new ResponseStructure for each request
 
         if ("set".equals(stringParts[0])) {
             if (stringParts.length == 3) {
-                String dbData = setRequest(stringParts[1], stringParts[2]);
+                String dbData = setRequest(stringParts[1], stringParts[2],myDB);
                 if (dbData != null && !dbData.isEmpty()) {
                     res.setData(dbData);
                     res.setMessage(String.valueOf(message.SUCCESS));
@@ -116,7 +116,7 @@ public class RequestHandlers {
             }
         } else if ("get".equals(stringParts[0])) {
             if (stringParts.length == 2) {
-                String value = getRequest(stringParts[1]);
+                String value = getRequest(stringParts[1],myDB);
                 if (value != null && !value.isEmpty()) {
                     res.setData(value);
                     res.setMessage(String.valueOf(message.SUCCESS));
@@ -131,7 +131,7 @@ public class RequestHandlers {
             }
         } else if ("del".equals(stringParts[0])) {
             if (stringParts.length == 2) {
-                String delResponse = delRequest(stringParts[1]);
+                String delResponse = delRequest(stringParts[1],myDB);
                 if (delResponse != null && !delResponse.isEmpty()) {
                     res.setData(delResponse);
                     res.setMessage(String.valueOf(message.SUCCESS));
@@ -151,18 +151,18 @@ public class RequestHandlers {
         return res;
     }
 
-    private static String setRequest(String key, String value) {
-        String keyValue = DBMemoryMap.setValue(key, value);
+    private static String setRequest(String key, String value,DBMemoryMap myDB) {
+        String keyValue = myDB.setValue(key, value);
         return keyValue;
     }
 
-    private static String getRequest(String key) {
-        String value = DBMemoryMap.getValue(key);
+    private static String getRequest(String key,DBMemoryMap myDB) {
+        String value = myDB.getValue(key);
         return value;
     }
 
-    private static String delRequest(String key) {
-        String delResponse = DBMemoryMap.delValue(key);
+    private static String delRequest(String key,DBMemoryMap myDB) {
+        String delResponse = myDB.delValue(key);
         return delResponse;
     }
 }
