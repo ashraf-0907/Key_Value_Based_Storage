@@ -6,3 +6,4 @@ public class ParsedString {
         return trimmedRequestMessage.split("\\s+");
     }
 }
+

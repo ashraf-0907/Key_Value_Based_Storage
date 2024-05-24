@@ -8,3 +8,4 @@ public enum message {
     message(String message){
     }
 }
+

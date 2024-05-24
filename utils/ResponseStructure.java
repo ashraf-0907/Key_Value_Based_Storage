@@ -16,3 +16,4 @@ public class ResponseStructure {
         return "StatusCode: " + statusCode + "\nMessage: " + message + "\nError: " + error;
     }
 }
+
