@@ -1,33 +1,20 @@
 package DataStructure;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class DBMemoryMap {
-    private static HashMap<String, String> hMap = new HashMap<>();
-
-    public static String getValue(String key) {
-        String value = hMap.get(key);
-        if (value == null)
-            return "Key not present, cannot get";
-        else
-            return value;
-    }
+    private static final ConcurrentHashMap<String, String> dbMap = new ConcurrentHashMap<>();
 
     public static String setValue(String key, String value) {
-        if (hMap.containsKey(key))
-            return "Key already present, cannot set value!!";
-        else {
-            hMap.put(key, value);
-            return "SET operation successful";
-        }
+        dbMap.put(key, value);
+        return "OK";
+    }
+
+    public static String getValue(String key) {
+        return dbMap.getOrDefault(key, "null");
     }
 
     public static String delValue(String key) {
-        if (!hMap.containsKey(key))
-            return "Key not present, cannot delete the value!!";
-        else {
-            hMap.remove(key);
-            return "DEL operation successful";
-        }
+        return dbMap.remove(key) != null ? "OK" : "null";
     }
 }
